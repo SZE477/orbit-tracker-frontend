@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Mission Control Dark Theme - charcoal, subtle depth, cyan accent */
+    --background: 222 28% 8%;          /* Deep charcoal */
+    --foreground: 213 15% 92%;         /* Light desaturated gray */
+    --card: 222 24% 11%;               /* Slightly lighter than bg */
+    --card-foreground: 213 15% 92%;
+    --popover: 222 24% 11%;
+    --popover-foreground: 213 15% 92%;
+    --primary: 195 85% 62%;            /* Soft cyan for primary actions */
+    --primary-foreground: 210 30% 10%;
+    --secondary: 219 18% 18%;          /* Panel / subtle surface */
+    --secondary-foreground: 213 15% 85%;
+    --muted: 219 16% 20%;
+    --muted-foreground: 218 10% 57%;
+    --accent: 188 72% 54%;             /* Accent - vivid aqua */
+    --accent-foreground: 210 40% 12%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 19% 22%;             /* Divider / outlines */
+    --input: 219 18% 18%;
+    --ring: 188 72% 54%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: hsl(var(--accent) / 0.35);
+    color: hsl(var(--foreground));
+  }
+  h1,h2,h3,h4,h5,h6 {
+    @apply font-semibold tracking-tight text-foreground; 
+  }
+  h1 { @apply text-2xl; }
+  h2 { @apply text-xl; }
+  h3 { @apply text-lg; }
+}
+
+@layer components {
+  .sidebar-heading {
+    @apply text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground mb-3;
+  }
+  .pill {
+    @apply inline-flex items-center rounded-full border border-transparent px-3 py-1 text-xs font-medium transition-colors select-none bg-secondary text-secondary-foreground/80 hover:bg-secondary/70 focus:outline-none focus:ring-2 focus:ring-ring/60 focus:ring-offset-2 focus:ring-offset-background;
+  }
+  .pill-active {
+    @apply bg-accent text-accent-foreground shadow-sm hover:bg-accent/90;
+  }
+  .input {
+    @apply w-full rounded-md bg-secondary/70 border border-border/60 px-3 py-2 text-sm placeholder-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring/70 focus:border-accent transition;
+  }
+  .list-item-interactive {
+    @apply rounded-md px-3 py-2 text-sm cursor-pointer bg-transparent hover:bg-secondary/70 transition-colors flex items-center justify-between;
+  }
+}
+
+/* styles.css */
+#root {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  overflow: hidden;
+}
+
+.canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: min(90vw, 320px);
+  pointer-events: none;
+}
+
+.panel {
+  pointer-events: auto;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: color-mix(in oklab, #0b0f1a 80%, transparent);
+  color: #eaeef5;
+  padding: 16px;
+}
+
+.appbar {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .overlay.open {
+    transform: translateX(0);
+  }
+}
