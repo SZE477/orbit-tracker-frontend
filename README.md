@@ -1,4 +1,4 @@
-# Orbit Tracker (SatViz) 🛰️
+# Orbit Tracker 🛰️
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-green)](package.json)
