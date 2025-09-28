@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+// Simple card components as placeholders
+const Card = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <div className={`border rounded-lg ${className}`}>{children}</div>
+);
+const CardHeader = ({ children }: { children: React.ReactNode }) => <div className="p-4 border-b">{children}</div>;
+const CardTitle = ({ children }: { children: React.ReactNode }) => <h3 className="text-lg font-semibold">{children}</h3>;
+const CardContent = ({ children }: { children: React.ReactNode }) => <div className="p-4">{children}</div>;
 
 const AboutPage = () => {
   return (

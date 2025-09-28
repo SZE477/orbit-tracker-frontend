@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
 import { Earth } from './Earth';
-import { Satellites } from './Satellites';
+import Satellites from './Satellites';
 
 const GlobeScene = () => {
   return (

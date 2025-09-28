@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Canvas } from '@react-three/fiber';
 import { GlobeScene } from './features/globe/GlobeScene';
 import { MissionControl } from './app/layout/MissionControl';

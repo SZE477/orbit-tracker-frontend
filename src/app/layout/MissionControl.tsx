@@ -12,7 +12,7 @@ export const MissionControl: React.FC = () => {
         <div className="panel-header">
           <h2>Mission Control</h2>
         </div>
-        
+
         {/* Conditionally render based on selected satellite */}
         {selectedSatelliteId ? (
           <SatelliteDetail />

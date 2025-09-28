@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import { useFrame, useThree, useLoader, extend } from '@react-three/fiber';
 import { OrbitControls, Environment, Stars } from '@react-three/drei';
-import { Satellites } from './components/Satellites';
+import Satellites from './components/Satellites';
 import {
   ACESFilmicToneMapping,
   TextureLoader,
@@ -16,21 +16,21 @@ import {
 } from 'three';
 
 // Extend THREE namespace for R3F
-extend({ 
-  Mesh, 
-  SphereGeometry, 
-  MeshStandardMaterial, 
-  Group, 
-  Color, 
-  AmbientLight, 
-  DirectionalLight 
+extend({
+  Mesh,
+  SphereGeometry,
+  MeshStandardMaterial,
+  Group,
+  Color,
+  AmbientLight,
+  DirectionalLight
 });
 
 // Earth component with texture loading
 const Earth: React.FC = () => {
   const earthRef = useRef<Mesh>(null);
   const cloudsRef = useRef<Mesh>(null);
-  
+
   // Load day texture with fallback
   let dayTexture = null;
   try {
@@ -39,7 +39,7 @@ const Earth: React.FC = () => {
     // Fallback to no texture
     dayTexture = null;
   }
-  
+
   // Configure texture color spaces
   useEffect(() => {
     if (dayTexture) {
@@ -69,7 +69,7 @@ const Earth: React.FC = () => {
           metalness={0.1}
         />
       </mesh>
-      
+
       {/* Simplified clouds layer */}
       <mesh ref={cloudsRef}>
         <sphereGeometry args={[2.005, 64, 64]} />
@@ -87,6 +87,8 @@ const Earth: React.FC = () => {
 
 export const GlobeScene: React.FC = () => {
   const gl = useThree((s) => s.gl);
+  const sunRef = useRef<DirectionalLight>(null);
+
 
   useEffect(() => {
     gl.setPixelRatio(window.devicePixelRatio);
@@ -94,37 +96,52 @@ export const GlobeScene: React.FC = () => {
     gl.toneMappingExposure = 1.0;
     gl.shadowMap.enabled = true;
   }, [gl]);
+  // Animate sun position to create real-time day/night cycle
+  useFrame(() => {
+    const now = Date.now();
+    const secondsInDay = 86400;
+    const utcSeconds = (now / 1000) % secondsInDay;
+    const angle = (utcSeconds / secondsInDay) * Math.PI * 2; // 0..2PI over a day
+    const radius = 10;
+    if (sunRef.current) {
+      sunRef.current.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+      sunRef.current.target.position.set(0, 0, 0);
+      sunRef.current.target.updateMatrixWorld();
+    }
+  });
+
 
   return (
     <>
       {/* Dark space background */}
       <color attach="background" args={['#050810']} />
-      
+
       {/* Lighting setup for realistic Earth */}
-      <ambientLight intensity={0.15} color="#404080" />
-      <directionalLight 
-        position={[10, 0, 5]} 
+      <ambientLight intensity={0.1} color="#404080" />
+      <directionalLight
+        ref={sunRef}
+        position={[10, 0, 5]}
         intensity={2.2}
         color="#fff8e1"
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
-      
+
       {/* Environment lighting for subtle reflections */}
       <Environment preset="city" background={false} />
-      
+
       {/* Beautiful star field */}
-      <Stars 
-        radius={100} 
-        depth={50} 
-        count={4000} 
-        factor={4} 
-        saturation={0} 
-        fade 
+      <Stars
+        radius={100}
+        depth={50}
+        count={4000}
+        factor={4}
+        saturation={0}
+        fade
         speed={1}
       />
-      
+
       {/* Earth with progressive loading */}
       <Suspense fallback={
         <mesh>
@@ -139,7 +156,7 @@ export const GlobeScene: React.FC = () => {
       <Suspense fallback={null}>
         <Satellites />
       </Suspense>
-      
+
       {/* Camera controls */}
       <OrbitControls
         enablePan={false}

@@ -1,5 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '@/features/satellites/components/Sidebar';
+import React from 'react';
+
+// Temporary stub to avoid missing import error
+const Sidebar: React.FC = () => (
+  <aside className="w-64 shrink-0 border-r border-border">
+    <div className="p-4 text-sm text-muted-foreground">Sidebar component not found.</div>
+  </aside>
+);
 
 export const Layout = () => {
   return (

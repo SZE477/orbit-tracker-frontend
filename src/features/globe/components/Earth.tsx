@@ -6,7 +6,7 @@ import * as THREE from 'three';
 export const Earth = () => {
   const earthRef = useRef<THREE.Mesh>(null!);
 
-  const [dayMap, nightMap, cloudsMap, normalMap, specularMap] = useTexture([
+  const [dayMap, , cloudsMap, normalMap] = useTexture([
     '/earth-textures/2k_earth_daymap.jpg',
     '/earth-textures/2k_earth_nightmap.jpg',
     '/earth-textures/2k_earth_clouds.jpg',
